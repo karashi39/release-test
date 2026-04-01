@@ -1,14 +1,19 @@
-name: test-release-events
+name: release-workflow
 
 on:
   release:
-    types: [created, edited, published]
+    types: [published]
+  workflow_dispatch:
 
 jobs:
-  check:
+  B:
+    if: ${{ github.event_name == 'workflow_dispatch' }}
     runs-on: ubuntu-latest
     steps:
-      - run: |
-          echo "event_name=${{ github.event_name }}"
-          echo "action=${{ github.event.action }}"
-          echo "draft=${{ github.event.release.draft }}"
+      - run: echo "Run B manually for draft phase"
+
+  A:
+    if: ${{ github.event_name == 'release' && github.event.action == 'published' }}
+    runs-on: ubuntu-latest
+    steps:
+      - run: echo "Run A on release publish"
