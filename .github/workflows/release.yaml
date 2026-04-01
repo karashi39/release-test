@@ -1,0 +1,14 @@
+name: test-release-events
+
+on:
+  release:
+    types: [created, edited, published]
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    steps:
+      - run: |
+          echo "event_name=${{ github.event_name }}"
+          echo "action=${{ github.event.action }}"
+          echo "draft=${{ github.event.release.draft }}"
